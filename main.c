@@ -23,6 +23,7 @@ int main(void) {
         printf("\nOpcao digitada invalida!\n");
         break;
     }
+    
   } while(entrada != 0);
 
   if(entrada == 0) {

@@ -107,9 +107,9 @@ int menuOpcoes() {
 }
 
 void processoDeInsercaoNaFila() {
-  int profFaseUm;
-  Pessoa entradaPessoa;
-  char nome[50], sobrenome[50], completo[110];
+  int profFaseUm, pCom, profFaseQuatro;
+  Pessoa p;
+  char nome[50], sobrenome[50], completo[110] = "";
 
   printf("\nA pessoa na qual voce deseja inserir atua na area da saude?\n");
   printf("Digite 1 para SIM e 2 para NAO.\n\n");
@@ -117,6 +117,7 @@ void processoDeInsercaoNaFila() {
   do {
     printf("Insira a opcao: ");
     scanf("%d", &profFaseUm);
+
     if(profFaseUm < 1 || profFaseUm > 2)
       printf("\nOpcao Incorreta: Digite 1 para SIM e 2 para NAO.\n");
   }while(profFaseUm < 1 || profFaseUm > 2);
@@ -124,14 +125,108 @@ void processoDeInsercaoNaFila() {
   if(profFaseUm == 1) {
     printf("\nProfissional que atua na Area da Saude escolhido.\n");
     printf("Fase de Vacinacao: 1\n\n");
-    printf("Insira o nome da Pessoa (MAX. 50 CARACTERES): ");
+
+    printf("Insira o Nome da Pessoa (MAX. 50 CARACTERES | SEM ESPACOS): ");
     scanf("%s", nome);
-    printf("\nInsira o sobrenome da Pessoa (MAX. 50 CARACTERES): ");
+    printf("\nInsira o Sobrenome da Pessoa (MAX. 50 CARACTERES | SEM ESPACOS): ");
     scanf("%s", sobrenome);
+
     strcat(completo, nome);
+    strcat(completo, " ");
     strcat(completo, sobrenome);
-    printf("\n-- %s --\n", completo);
+    strcpy(p.nome, completo);
+
+    printf("\nInsira a Idade da Pessoa: ");
+    scanf("%d", &p.idade);
+
+    p.fase        = 1;
+    p.comorbidade = false;
+    p.pFase1      = true;
+    p.pFase4      = false;
+  } else {
+    printf("Insira o Nome da Pessoa (MAX. 50 CARACTERES | SEM ESPACOS): ");
+    scanf("%s", nome);
+    printf("\nInsira o Sobrenome da Pessoa (MAX. 50 CARACTERES | SEM ESPACOS): ");
+    scanf("%s", sobrenome);
+
+    strcat(completo, nome);
+    strcat(completo, " ");
+    strcat(completo, sobrenome);
+    strcpy(p.nome, completo);
+
+    printf("\nInsira a Idade da Pessoa: ");
+    scanf("%d", &p.idade);
+
+    if(p.idade >= 75) {
+      printf("\nPessoa com 75 anos ou mais escolhido.\n");
+      printf("Fase de Vacinacao: 1\n\n");
+
+      p.fase        = 1;
+      p.comorbidade = false;
+      p.pFase1      = false;
+      p.pFase4      = false;
+    } else if(p.idade >= 60 && p.idade <= 74) {
+      printf("\nPessoa entre 60 e 74 anos escolhido.\n");
+      printf("Fase de Vacinacao: 2\n\n");
+
+      p.fase        = 2;
+      p.comorbidade = false;
+      p.pFase1      = false;
+      p.pFase4      = false;
+    } else {
+      printf("\nA pessoa na qual voce deseja inserir tem alguma comorbidade que se encaixe na fase 3 de vacinacao?\n");
+      printf("Digite 1 para SIM e 2 para NAO.\n\n");
+
+      do {
+        printf("Insira a opcao: ");
+        scanf("%d", &pCom);
+
+        if(pCom < 1 || pCom > 2)
+          printf("\nOpcao Incorreta: Digite 1 para SIM e 2 para NAO.\n");
+      }while(pCom < 1 || pCom > 2);
+
+      if(pCom == 1) {
+        printf("\nPessoa com alguma comorbidade escolhida.\n");
+        printf("Fase de Vacinacao: 3\n\n");
+
+        p.fase        = 3;
+        p.comorbidade = true;
+        p.pFase1      = false;
+        p.pFase4      = false;
+      } else {
+        printf("\nA pessoa na qual voce deseja inserir eh um profissional da 4a fase?\n");
+        printf("Digite 1 para SIM e 2 para NAO.\n\n");
+
+        do {
+          printf("Insira a opcao: ");
+          scanf("%d", &profFaseQuatro);
+
+          if(profFaseQuatro < 1 || profFaseQuatro > 2)
+            printf("\nOpcao Incorreta: Digite 1 para SIM e 2 para NAO.\n");
+        }while(profFaseQuatro < 1 || profFaseQuatro > 2);
+
+        if(profFaseQuatro == 1) {
+          printf("\nProfissional da Quarta Fase escolhido.\n");
+          printf("Fase de Vacinacao: 4\n\n");
+
+          p.fase        = 4;
+          p.comorbidade = false;
+          p.pFase1      = false;
+          p.pFase4      = true;
+        } else {
+          printf("\nPessoa Sem Prioridade.\n");
+          printf("Fase de Vacinacao: 5\n\n");
+
+          p.fase        = 5;
+          p.comorbidade = false;
+          p.pFase1      = false;
+          p.pFase4      = false;
+        }
+      }
+    }
   }
+
+  printf("\nN: %s, I: %d, F: %d, C: %s, PF1: %s, PF4: %s", p.nome, p.idade, p.fase, p.comorbidade ? "true" : "false", p.pFase1 ? "true" : "false", p.pFase4 ? "true" : "false");
 }
 
 #endif
