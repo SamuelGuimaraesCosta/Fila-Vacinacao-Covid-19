@@ -12,10 +12,10 @@ typedef struct Pessoa {
   bool comorbidade, pFase1, pFase4;
 } Pessoa;
 
-typedef struct Celula{
+typedef struct Celula {
   Pessoa dado;
   struct Celula *prox;
-}Celula;
+} Celula;
 
 typedef struct Fila {
   Celula *inicio;
@@ -47,15 +47,92 @@ void insereFinalDaFila(Fila *f, Pessoa dado) {
   f->tam++;
 }
 
+void insereLikePrioridade(Fila *f, Pessoa dado) {
+  Celula *nova = novaCelula();
+
+  nova->dado = dado;
+
+  if(dado.pFase1 || dado.idade >= 75) {
+    Celula *ant = f->inicio;
+    Celula *tmp = f->inicio->prox;
+
+    while(tmp != NULL && tmp->dado.fase <= 1) {
+      ant = ant->prox;
+      tmp = tmp->prox;
+    }
+
+    nova->prox = tmp;
+    ant->prox  = nova;
+
+    f->tam++;
+
+    if(tmp == NULL)
+      f->fim = nova;
+  } else if(dado.idade >= 60 && dado.idade <= 74) {
+    Celula *ant = f->inicio;
+    Celula *tmp = f->inicio->prox;
+
+    while(tmp != NULL && tmp->dado.fase <= 2) {
+      ant = ant->prox;
+      tmp = tmp->prox;
+    }
+
+    nova->prox = tmp;
+    ant->prox  = nova;
+
+    f->tam++;
+
+    if(tmp == NULL)
+      f->fim = nova;
+  } else if(dado.comorbidade) {
+    Celula *ant = f->inicio;
+    Celula *tmp = f->inicio->prox;
+
+    while(tmp != NULL && tmp->dado.fase <= 3) {
+      ant = ant->prox;
+      tmp = tmp->prox;
+    }
+
+    nova->prox = tmp;
+    ant->prox  = nova;
+
+    f->tam++;
+
+    if(tmp == NULL)
+      f->fim = nova;
+  } else if(dado.pFase4) {
+    Celula *ant = f->inicio;
+    Celula *tmp = f->inicio->prox;
+
+    while(tmp != NULL && tmp->dado.fase <= 4) {
+      ant = ant->prox;
+      tmp = tmp->prox;
+    }
+
+    nova->prox = tmp;
+    ant->prox  = nova;
+
+    f->tam++;
+
+    if(tmp == NULL)
+      f->fim = nova;
+  } else {
+    f->fim->prox = nova;
+    f->fim       = nova;
+
+    f->tam++;
+  }
+}
+
 void exibirDadosDaPessoa(Pessoa p) {
   if(p.comorbidade)
-    printf("--> Nome: %s, Idade: %d, Fase de Vacinacao: %d, Com Comorbidade <--\n", p.nome, p.idade, p.fase);
+    printf("--> Nome: %s, Idade: %d, Fase de Vacinacao: %d, Com alguma Comorbidade <--\n", p.nome, p.idade, p.fase);
   else if(p.pFase1)
-    printf("--> Nome: %s, Idade: %d, Fase de Vacinacao: %d, Prof. de Saude <--", p.nome, p.idade, p.fase);
+    printf("--> Nome: %s, Idade: %d, Fase de Vacinacao: %d, Prof. de Saude <--\n", p.nome, p.idade, p.fase);
   else if(p.pFase4)
-    printf("--> Nome: %s, Idade: %d, Fase de Vacinacao: %d, Prof. da 4a Fase <--", p.nome, p.idade, p.fase);
+    printf("--> Nome: %s, Idade: %d, Fase de Vacinacao: %d, Prof. da 4a Fase <--\n", p.nome, p.idade, p.fase);
   else
-    printf("--> Nome: %s, Idade: %d, Fase de Vacinacao: %d <--", p.nome, p.idade, p.fase);
+    printf("--> Nome: %s, Idade: %d, Fase de Vacinacao: %d <--\n", p.nome, p.idade, p.fase);
 }
 
 void exibirDadosGeraisDaFila(Fila *f) {
@@ -106,7 +183,7 @@ int menuOpcoes() {
   return op;
 }
 
-void processoDeInsercaoNaFila() {
+void processoDeInsercaoNaFila(Fila *f) {
   int profFaseUm, pCom, profFaseQuatro;
   Pessoa p;
   char nome[50], sobrenome[50], completo[110] = "";
@@ -123,7 +200,7 @@ void processoDeInsercaoNaFila() {
   }while(profFaseUm < 1 || profFaseUm > 2);
 
   if(profFaseUm == 1) {
-    printf("\nProfissional que atua na Area da Saude escolhido.\n");
+    printf("\nProfissional que atua na Area da Saude escolhido(a).\n");
     printf("Fase de Vacinacao: 1\n\n");
 
     printf("Insira o Nome da Pessoa (MAX. 50 CARACTERES | SEM ESPACOS): ");
@@ -143,6 +220,8 @@ void processoDeInsercaoNaFila() {
     p.comorbidade = false;
     p.pFase1      = true;
     p.pFase4      = false;
+
+    insereLikePrioridade(f, p);
   } else {
     printf("Insira o Nome da Pessoa (MAX. 50 CARACTERES | SEM ESPACOS): ");
     scanf("%s", nome);
@@ -158,21 +237,25 @@ void processoDeInsercaoNaFila() {
     scanf("%d", &p.idade);
 
     if(p.idade >= 75) {
-      printf("\nPessoa com 75 anos ou mais escolhido.\n");
+      printf("\nPessoa com 75 anos ou mais escolhido(a).\n");
       printf("Fase de Vacinacao: 1\n\n");
 
       p.fase        = 1;
       p.comorbidade = false;
       p.pFase1      = false;
       p.pFase4      = false;
+
+      insereLikePrioridade(f, p);
     } else if(p.idade >= 60 && p.idade <= 74) {
-      printf("\nPessoa entre 60 e 74 anos escolhido.\n");
+      printf("\nPessoa entre 60 e 74 anos escolhido(a).\n");
       printf("Fase de Vacinacao: 2\n\n");
 
       p.fase        = 2;
       p.comorbidade = false;
       p.pFase1      = false;
       p.pFase4      = false;
+
+      insereLikePrioridade(f, p);
     } else {
       printf("\nA pessoa na qual voce deseja inserir tem alguma comorbidade que se encaixe na fase 3 de vacinacao?\n");
       printf("Digite 1 para SIM e 2 para NAO.\n\n");
@@ -186,13 +269,15 @@ void processoDeInsercaoNaFila() {
       }while(pCom < 1 || pCom > 2);
 
       if(pCom == 1) {
-        printf("\nPessoa com alguma comorbidade escolhida.\n");
+        printf("\nPessoa com alguma comorbidade escolhido(a).\n");
         printf("Fase de Vacinacao: 3\n\n");
 
         p.fase        = 3;
         p.comorbidade = true;
         p.pFase1      = false;
         p.pFase4      = false;
+
+        insereLikePrioridade(f, p);
       } else {
         printf("\nA pessoa na qual voce deseja inserir eh um profissional da 4a fase?\n");
         printf("Digite 1 para SIM e 2 para NAO.\n\n");
@@ -206,27 +291,29 @@ void processoDeInsercaoNaFila() {
         }while(profFaseQuatro < 1 || profFaseQuatro > 2);
 
         if(profFaseQuatro == 1) {
-          printf("\nProfissional da Quarta Fase escolhido.\n");
+          printf("\nProfissional da Quarta Fase escolhido(a).\n");
           printf("Fase de Vacinacao: 4\n\n");
 
           p.fase        = 4;
           p.comorbidade = false;
           p.pFase1      = false;
           p.pFase4      = true;
+
+          insereLikePrioridade(f, p);
         } else {
-          printf("\nPessoa Sem Prioridade.\n");
+          printf("\nPessoa Sem Prioridades na Fila escolhido(a).\n");
           printf("Fase de Vacinacao: 5\n\n");
 
           p.fase        = 5;
           p.comorbidade = false;
           p.pFase1      = false;
           p.pFase4      = false;
+
+          insereLikePrioridade(f, p);
         }
       }
     }
   }
-
-  printf("\nN: %s, I: %d, F: %d, C: %s, PF1: %s, PF4: %s", p.nome, p.idade, p.fase, p.comorbidade ? "true" : "false", p.pFase1 ? "true" : "false", p.pFase4 ? "true" : "false");
 }
 
 #endif

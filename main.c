@@ -6,6 +6,10 @@
 
 int main(void) {
 
+  Fila filaVacinacao;
+
+  novaFila(&filaVacinacao);
+
   int entrada = -1;
 
   do {
@@ -15,8 +19,10 @@ int main(void) {
 
     switch(entrada) {
       case 1:
-        processoDeInsercaoNaFila();
+        processoDeInsercaoNaFila(&filaVacinacao);
         break;
+      case 2:
+        exibirDadosGeraisDaFila(&filaVacinacao);
       case 0:
         break;
       default:
