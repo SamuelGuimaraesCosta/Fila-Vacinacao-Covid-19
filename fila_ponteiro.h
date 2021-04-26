@@ -181,6 +181,7 @@ int menuOpcoes() {
   printf("\n\nSistema de Fila de Vacinacao Covid-19  -  v1.0\n\n");
   printf("1 - Cadastrar uma nova pessoa na fila.\n");
   printf("2 - Exibir dados gerais da fila de vacinacao.\n");
+  printf("3 - Exibir dados de acordo com a prioridade do usuario.\n");
   printf("\nDigite a opcao desejada: ");
   scanf("%d", &op);
 
@@ -319,5 +320,47 @@ void processoDeInsercaoNaFila(Fila *f) {
     }
   }
 }
+void exibirDadosDeAcordoComGrupoDaFila(Fila *f){
+  Celula *tmp = f->inicio->prox;
+  if(f->tam == 0){
+    printf("\n\n-->Nao existem pessoas cadastradas na fila\n");
+  }
+  printf("\n\n-->Qual fase da vacinacao voce deseja exibir?\n");
+  int fase = 0;
+  do{
+    scanf("%d",&fase);
+  }while(fase < 1 || fase > 5);
 
+  while(tmp != NULL){
+    if(fase==1){
+      if(tmp->dado.fase==1){
+      exibirDadosDaPessoa(tmp->dado);
+       
+      }
+    }
+    else if(fase==2){
+      if(tmp->dado.fase==2){
+      exibirDadosDaPessoa(tmp->dado);
+      }
+    }
+     else if(fase==3){
+      if(tmp->dado.fase==3){
+      exibirDadosDaPessoa(tmp->dado);
+      }
+    }
+     else if(fase==4){
+      if(tmp->dado.fase==4){
+      exibirDadosDaPessoa(tmp->dado);
+      }
+    }
+    else if(fase==5){
+      if(tmp->dado.fase==5){
+      exibirDadosDaPessoa(tmp->dado);
+      }
+    }
+  
+    tmp = tmp->prox;
+    
+  }
+}
 #endif

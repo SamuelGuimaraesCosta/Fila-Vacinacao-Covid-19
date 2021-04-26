@@ -12,6 +12,7 @@ int main(void) {
 
   int entrada = -1;
 
+
   do {
     entrada = menuOpcoes();
 
@@ -23,6 +24,9 @@ int main(void) {
         break;
       case 2:
         exibirDadosGeraisDaFila(&filaVacinacao);
+        break;
+        case 3:
+        exibirDadosDeAcordoComGrupoDaFila(&filaVacinacao);
         break;
       case 0:
         break;
