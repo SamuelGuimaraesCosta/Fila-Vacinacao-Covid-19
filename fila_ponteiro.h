@@ -137,6 +137,9 @@ void exibirDadosDaPessoa(Pessoa p) {
 
 void exibirDadosGeraisDaFila(Fila *f) {
   Celula *tmp = f->inicio->prox;
+  if(f->tam == 0){
+    printf("\n\n-->Nao existem pessoas cadastradas na fila\n");
+  }
 
   while(tmp != NULL){
     exibirDadosDaPessoa(tmp->dado);
@@ -177,6 +180,7 @@ int menuOpcoes() {
   
   printf("\n\nSistema de Fila de Vacinacao Covid-19  -  v1.0\n\n");
   printf("1 - Cadastrar uma nova pessoa na fila.\n");
+  printf("2 - Exibir dados gerais da fila de vacinacao.\n");
   printf("\nDigite a opcao desejada: ");
   scanf("%d", &op);
 
