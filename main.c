@@ -23,6 +23,7 @@ int main(void) {
         break;
       case 2:
         exibirDadosGeraisDaFila(&filaVacinacao);
+        break;
       case 0:
         break;
       default:
