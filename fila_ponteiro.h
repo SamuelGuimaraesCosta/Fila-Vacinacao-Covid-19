@@ -137,11 +137,14 @@ void exibirDadosDaPessoa(Pessoa p) {
 
 void exibirDadosGeraisDaFila(Fila *f) {
   Celula *tmp = f->inicio->prox;
-  if(f->tam == 0){
-    printf("\n\n-->Nao existem pessoas cadastradas na fila\n");
+
+  if(f->tam == 0) {
+    printf("\n\nNao ha pessoas cadastradas na fila de vacinacao!\n");
+  } else {
+    printf("\n");
   }
 
-  while(tmp != NULL){
+  while(tmp != NULL) {
     exibirDadosDaPessoa(tmp->dado);
     tmp = tmp->prox;
   }
@@ -182,6 +185,7 @@ int menuOpcoes() {
   printf("1 - Cadastrar uma nova pessoa na fila.\n");
   printf("2 - Exibir dados gerais da fila de vacinacao.\n");
   printf("3 - Exibir dados de acordo com a prioridade do usuario.\n");
+  printf("0 - Sair do sistema.\n");
   printf("\nDigite a opcao desejada: ");
   scanf("%d", &op);
 
@@ -320,47 +324,43 @@ void processoDeInsercaoNaFila(Fila *f) {
     }
   }
 }
-void exibirDadosDeAcordoComGrupoDaFila(Fila *f){
+
+void exibirDadosDeAcordoComGrupoDaFila(Fila *f) {
   Celula *tmp = f->inicio->prox;
-  if(f->tam == 0){
-    printf("\n\n-->Nao existem pessoas cadastradas na fila\n");
-  }
-  printf("\n\n-->Qual fase da vacinacao voce deseja exibir?\n");
   int fase = 0;
-  do{
-    scanf("%d",&fase);
+
+  if(f->tam == 0) {
+    printf("\n\nNao ha pessoas cadastradas na fila de vacinacao!\n");
+  }
+
+  printf("\n\nQual fase da vacinacao voce deseja exibir?\n");
+
+  do {
+    scanf("%d", &fase);
+
+    if(fase < 1 || fase > 5)
+      printf("\nOpcao Incorreta: Digite uma FASE de 1 a 5.\n");
   }while(fase < 1 || fase > 5);
 
-  while(tmp != NULL){
-    if(fase==1){
-      if(tmp->dado.fase==1){
-      exibirDadosDaPessoa(tmp->dado);
-       
-      }
-    }
-    else if(fase==2){
-      if(tmp->dado.fase==2){
-      exibirDadosDaPessoa(tmp->dado);
-      }
-    }
-     else if(fase==3){
-      if(tmp->dado.fase==3){
-      exibirDadosDaPessoa(tmp->dado);
-      }
-    }
-     else if(fase==4){
-      if(tmp->dado.fase==4){
-      exibirDadosDaPessoa(tmp->dado);
-      }
-    }
-    else if(fase==5){
-      if(tmp->dado.fase==5){
-      exibirDadosDaPessoa(tmp->dado);
-      }
-    }
-  
+  while(tmp != NULL) {
+    if(fase == 1)
+      if(tmp->dado.fase == 1)
+        exibirDadosDaPessoa(tmp->dado);
+    if(fase == 2)
+      if(tmp->dado.fase == 2)
+        exibirDadosDaPessoa(tmp->dado);
+    if(fase == 3)
+      if(tmp->dado.fase == 3)
+        exibirDadosDaPessoa(tmp->dado);
+    if(fase == 4)
+      if(tmp->dado.fase == 4)
+        exibirDadosDaPessoa(tmp->dado);
+    if(fase == 5)
+      if(tmp->dado.fase == 5)
+        exibirDadosDaPessoa(tmp->dado);
+
     tmp = tmp->prox;
-    
   }
 }
+
 #endif

@@ -12,7 +12,6 @@ int main(void) {
 
   int entrada = -1;
 
-
   do {
     entrada = menuOpcoes();
 
@@ -25,7 +24,7 @@ int main(void) {
       case 2:
         exibirDadosGeraisDaFila(&filaVacinacao);
         break;
-        case 3:
+      case 3:
         exibirDadosDeAcordoComGrupoDaFila(&filaVacinacao);
         break;
       case 0:
@@ -34,12 +33,11 @@ int main(void) {
         printf("\nOpcao digitada invalida!\n");
         break;
     }
-    
   } while(entrada != 0);
 
   if(entrada == 0) {
     printf("\nSistema de fila de vacinacao finalizado corretamente.  -  v1.0\n");
   } else {
-    printf("\nParece que o sistema nao foi finalizado corretamente.\n");
+    printf("\nParece que o sistema nao foi finalizado corretamente. - v1.0\n");
   }
 }
