@@ -4,3 +4,5 @@ Laboratório
 Issues do Laboratório todas separadas com o nome de cada integrante que finalizou a issue.
 
 Para executar o trabalho basta executar o main.c.
+
+Membros do Grupo: Samuel Guimarães da Costa e Rennan Moreira Eckhardt Tavares.
